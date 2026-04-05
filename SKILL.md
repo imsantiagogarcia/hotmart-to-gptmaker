@@ -12,7 +12,8 @@ Pipeline de 5 fases que va de la URL del curso a un agente de soporte listo en G
 ```bash
 # Python 3.9+
 pip3 install playwright openai-whisper requests python-dotenv
-playwright install chromium
+# Asegúrate de tener Google Chrome instalado (no Chromium)
+# Descarga: https://www.google.com/chrome
 
 # ffmpeg (para descarga de audio en Whisper fallback)
 brew install ffmpeg   # macOS
@@ -88,7 +89,7 @@ python3 scripts/crear_agente.py \
 
 | Error | Solución |
 |-------|----------|
-| `playwright not found` | `pip3 install playwright && playwright install chromium` |
+| `playwright not found` | `pip3 install playwright` (requiere Google Chrome instalado) |
 | `whisper not found` | `pip3 install openai-whisper` (opcional, solo para fallback) |
 | `401 GPT Maker` | API Key expirada — regenerar en GPT Maker |
 | `knowledge_base.json not found` | Correr primero `pipeline_hotmart.py` |

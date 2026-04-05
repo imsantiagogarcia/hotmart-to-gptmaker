@@ -46,15 +46,15 @@ bash scripts/run_completo.sh \
 
 ## Las 5 Fases
 
-**Fase 1 — Mapeo:** Playwright abre Chrome, el usuario inicia sesión en Hotmart, la skill mapea todos los módulos y clases del curso.
+**Fase 1 — Mapeo:** Playwright abre Chrome, el usuario inicia sesión en Hotmart, la skill expande todos los módulos y extrae el listado completo de clases con sus URLs.
 
-**Fase 2 — Descarga de transcripciones:** Por cada clase: intenta capturar VTT de la red (subtítulos HLS), luego busca en el DOM, y como último recurso descarga el audio y lo transcribe con Whisper.
+**Fase 2 — Intercepción de subtítulos HLS:** Hotmart sirve los subtítulos como segmentos HLS textstream (ej: `textstream_spa=1000-29`, `30`, `31`...) con tokens dinámicos de sesión. Por cada clase: Playwright abre la clase, da play al video e intercepta todos los segmentos de la red. Los ordena por número y los ensambla en un único VTT completo. Si una clase no tiene subtítulos, descarga el audio y lo transcribe con Whisper (fallback).
 
-**Fase 3 — Parseo:** Limpia y normaliza todos los VTTs a texto plano.
+**Fase 3 — Parseo:** Limpia y normaliza todos los VTTs a texto plano eliminando timestamps, numeración y etiquetas.
 
-**Fase 4 — Knowledge Base:** Genera `knowledge_base.json` y `knowledge_base.txt` con todo el contenido estructurado por módulo y clase.
+**Fase 4 — Knowledge Base:** Genera `knowledge_base.json` y `knowledge_base.txt` con el contenido completo estructurado por módulo y clase, con URLs de referencia.
 
-**Fase 5 — Creación del agente:** Llama a la API de GPT Maker para crear el agente, subirle el entrenamiento y activarlo.
+**Fase 5 — Creación y entrenamiento del agente:** Llama a la API de GPT Maker para crear el agente con su system prompt personalizado, sube el entrenamiento con todo el contenido del curso y lo activa.
 
 ## Paso manual del usuario
 
